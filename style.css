@@ -1,1 +1,11 @@
-﻿
+﻿.seeds {
+    text-align: center;
+	font-weight: bold;
+	color: green;
+}
+
+.leeches {
+	text-align: center;
+	font-weight: bold;
+	color: red;
+}

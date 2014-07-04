@@ -9,10 +9,20 @@
     "persistent": false
   },
   "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "images/icon.png"
   },
   "web_accessible_resources": [
-  "jquery-2.1.1.min.map"
+  "style.css",
+  "jquery-2.1.1.min.map",
+  "images/Movie_Clip.png",
+  "images/HD_Movie_Clip.png",
+  "images/download-button.png",
+  "images/tv.png",
+  "images/ebook.png",
+  "images/audio.png",
+  "images/audio_book.png",
+  "images/audio_book.png",
+  "images/comics.png"
   ],
   "content_scripts": [
     {
