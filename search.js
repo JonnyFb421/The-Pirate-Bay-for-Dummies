@@ -7,7 +7,7 @@ window.onload = function() {
   document.getElementById("search").onchange = function() {
     search_query = document.getElementById("search").value;
     if (search_query == search_query) {
-      tpbSeedDescendUrl = "http://thepiratebay.se/search/" + search_query + "/0/7/0";
+      tpbSeedDescendUrl = "http://thepiratebay.se/search/" + encodeURI(search_query) + "/0/7/0";
       chrome.tabs.update({url: tpbSeedDescendUrl});
     } 
   }

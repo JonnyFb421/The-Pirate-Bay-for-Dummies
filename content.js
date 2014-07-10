@@ -3,40 +3,23 @@
 //  This script is responsible for altering the content displayed on TPB by
 //  removing non-verified torrents and making torrents easier to read and download 
 */
-changeTable();  //Function to be removed - jQuery selectors will replace it.
 replaceMagnent(); //Good to go
-addCategoryImages(); //Pretty much good to go
-changeSeLe();
-//changeSeason();
-//removeNonTrusted();
+addCategoryImages(); //Fix me - Add category for porn
+changeSeLe(); //Good to go
+changeSeason();  //Good to go
+sortBySeedsDescending(); //Good to go
+removeNonTrusted(); // Fix me - Not keeping Trusted(pink) rows, just VIP(green)
 
 
-/** This function traverses through the searchResult table and searches the HTML. */
-function changeTable() {   
-  var tableOfResults = document.getElementById("searchResult");
-  //We start at 1 so we don't cut the header off the table.
-  for (var i = 1, row; row = tableOfResults.rows[i]; i++) {
-    
-    //iterate through rows
-    //rows[] are accessed using the "row" variable assigned in the for loop  
-    var matchPos = row.innerHTML.search(/\/img\/vip.gif/i);
-    var matchPos2 = row.innerHTML.search(/\img\/trusted/i);
-    // Hide the torrents if it is not VIP or trusted
-    if(matchPos == -1 && matchPos2 == -1) {         
-      row.style.display = 'none';
-    }
-    
-    //MiB to Mebibytes
-    if(changeMemDigi(row)) {
-      tableOfResults.rows[i].innerHTML = changeMemDigi(row);
-    } 
-    //Change s01e01 to Season 1 Episode 1
-    for (var j = 0, col; col = row.cells[j]; j++) {
-      if (changeSeason(col)) {
-        row.cells[j].innerHTML = changeSeason(col);
-        }
-    }
-  }    
+/** This function checks if the page is sorted by seeds descending and if not sorts the page by seeds. */
+function sortBySeedsDescending() {
+  var url = document.URL;
+  var pattern = /(\/[0-9]+\/)(99)(\/[0-9])+/;
+  if (url.match(pattern)) {
+    var newUrl = url.replace(pattern, "$17$3");
+    chrome.runtime.sendMessage({redirect: newUrl}, function(response) {
+    });
+  }
 }
 
 /** Adds images to category section */
@@ -48,6 +31,7 @@ function addCategoryImages() {
   var imgEbook = chrome.extension.getURL("images/ebook.png");
   var imgAudioBook = chrome.extension.getURL("images/audio_book.png");
   var imgComics = chrome.extension.getURL("images/comics.png");
+  var imgMusicVideo = chrome.extension.getURL("images/music_video.png");
   var mediaTypes = {
     'Movies': imgMovie,
     'Movies DVDR': imgMovie,
@@ -58,7 +42,8 @@ function addCategoryImages() {
     'FLAC': imgAudio,
     'E-books': imgEbook,
     'Audio books': imgAudioBook,
-    'Comics': imgComics
+    'Comics': imgComics,
+    'Music videos': imgMusicVideo
   };
   
   $.each(mediaTypes, function(media, imgUrl) {
@@ -72,12 +57,9 @@ function addCategoryImages() {
 
 /** Removes torrents that are not Verified/Trusted/VIP */
 function removeNonTrusted() {
-//Selector is ok but having trouble with <br>( <a></a> ) format on TPB. Currently selecting parent center and removing text.
   var trusted = ["/static/img/vip.gif", "/static/img/trusted.gif"];
     for (var i = 0; i < trusted.length; i++) {
-      $('img:not([src="/static/img/vip.gif"').each(function(imgElemIndex) {
-        $(this).parent('tr').hide();
-      });
+      $('tr:not(:first, :has(img[src= "/static/img/trusted.gif"], :has(img[src="/static/img/vip.gif"])))').hide();
     }
 }
 
@@ -90,6 +72,7 @@ function replaceMagnent() {
 }
 
 /** Changes GiB/MiB to Gigibytes/Mebibytes */
+/*
 function changeMemDigi(apple) {
   var gib = /GiB/;
   var mib = /MiB/;
@@ -109,28 +92,39 @@ function changeMemDigi(apple) {
   return false;
   }
 }
+*/
 
 /** Changes S01E01 formatting to Season 01 Episode 01 */
-function changeSeason(orange) {
-//function changeSeason() {
-  var titleConvertPattern= /s\d\de\d\d/gi;
- /* if ($('.detLink').filter(function() {
-    return $(this).text() === 's02e22';
-    }).append('<eeeeeeeeeek>');
-  } */
+function changeSeason() {
+  //http://stackoverflow.com/questions/9794851/find-text-string-in-jquery-and-make-it-bold
+  $.fn.wrapInTag = function(opts) {
+    var tag = opts.tag || 'strong'
+      , words = opts.words || []
+      , regex = RegExp(words.join('|'), 'gi') // case insensitive
+      , replacement = '<'+ tag +'>$&</'+ tag +'>';
+
+    return this.html(function() {
+      return $(this).text().replace(regex, replacement);
+    });
+  };
   
-  var swapTitle = orange.innerHTML.search(titleConvertPattern);
-  if (swapTitle != -1) {
-    var matchTitle = titleConvertPattern.exec(orange.innerHTML);
-    var swapMatchSeason = matchTitle[0].replace(/s/gi, "<b>Season: ");
-    var swapMatchEpisode = swapMatchSeason.replace(/e(?=\d\d)/gi, " Episode: "); 
-    swapMatchEpisode += "</b> ";
-    return orange.innerHTML.replace(titleConvertPattern, swapMatchEpisode);
-  }
-  else {
-  return false;
-  } 
-}  
+  var titleConvertPattern= /s\d\de\d\d/gi;
+  var seasonPattern = /s(?=\d\d)/gi;
+  var episodePattern = /e(?=\d\d)/gi;
+
+  
+  $('.detLink').html(function () {
+    return $(this).html().replace(seasonPattern, "Season: ");
+  });
+  $('.detLink').text(function () {
+    return $(this).text().replace(episodePattern, " Episode: ");
+  });
+  
+  $('.detLink').wrapInTag({ 
+    tag: 'b',
+    words: ['Season', 'Episode']
+  });
+}
 
 /** Adds styling to Seeds/Leechers */
 function changeSeLe() {
