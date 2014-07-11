@@ -3,6 +3,8 @@
 //  This script is responsible for altering the content displayed on TPB by
 //  removing non-verified torrents and making torrents easier to read and download 
 */
+
+
 replaceMagnent(); //Good to go
 addCategoryImages(); //Fix me - Add Games/Applications/Other
 changeSeedersLeechersStyle(); //Good to go
@@ -10,6 +12,22 @@ changeSeason();  //Good to go
 sortBySeedsDescending(); //Good to go
 removeNonTrusted(); // Good to go
 //changeMemDigi Undecided if this should stay or go
+
+var apple = {};
+chrome.storage.local.get({
+  replaceMagnent: 1,
+  addCategoryImages: 1,
+  changeSeedersLeechersStyle: 1,
+  changeSeason: 1,
+  sortBySeedsDescending: 1,
+  removeNonTrusted: 1
+}, function(settings) {
+  //console.log(Object.keys(settings).length);
+  for (setting in settings) {
+  //Leaving off here
+  }
+});
+
 
 
 /** This function checks if the page is sorted by seeds descending and if not sorts the page by seeds. */
