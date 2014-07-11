@@ -4,11 +4,12 @@
 //  removing non-verified torrents and making torrents easier to read and download 
 */
 replaceMagnent(); //Good to go
-addCategoryImages(); //Fix me - Add category for porn
-changeSeLe(); //Good to go
+addCategoryImages(); //Fix me - Add Games/Applications/Other
+changeSeedersLeechersStyle(); //Good to go
 changeSeason();  //Good to go
 sortBySeedsDescending(); //Good to go
-removeNonTrusted(); // Fix me - Not keeping Trusted(pink) rows, just VIP(green)
+removeNonTrusted(); // Good to go
+//changeMemDigi Undecided if this should stay or go
 
 
 /** This function checks if the page is sorted by seeds descending and if not sorts the page by seeds. */
@@ -24,6 +25,8 @@ function sortBySeedsDescending() {
 
 /** Adds images to category section */
 function addCategoryImages() {
+  var imgPorn = chrome.extension.getURL("images/porn.png");
+  var imgGames = chrome.extension.getURL("images/games.png");
   var imgMovie = chrome.extension.getURL("images/Movie_Clip.png");
   var imgHdMovie = chrome.extension.getURL("images/HD_Movie_Clip.png");
   var imgTv = chrome.extension.getURL("images/tv.png");
@@ -33,6 +36,8 @@ function addCategoryImages() {
   var imgComics = chrome.extension.getURL("images/comics.png");
   var imgMusicVideo = chrome.extension.getURL("images/music_video.png");
   var mediaTypes = {
+    'Porn': imgPorn,
+    'Games': imgGames,
     'Movies': imgMovie,
     'Movies DVDR': imgMovie,
     'HD - Movies': imgHdMovie,
@@ -47,7 +52,8 @@ function addCategoryImages() {
   };
   
   $.each(mediaTypes, function(media, imgUrl) {
-  var newImg = $("<img>", {src: imgUrl});
+    var newImg = $("<img>", {src: imgUrl});
+    //Using 'a' instead of center > a:nth-child(3) to ensure a:nth-child(1) also gets checked for porn
     $('a').filter(function() {
       return $(this).text() === media;
     }).parent('center').text('')
@@ -57,18 +63,16 @@ function addCategoryImages() {
 
 /** Removes torrents that are not Verified/Trusted/VIP */
 function removeNonTrusted() {
-  var trusted = ["/static/img/vip.gif", "/static/img/trusted.gif"];
-    for (var i = 0; i < trusted.length; i++) {
-      $('tr:not(:first, :has(img[src= "/static/img/trusted.gif"], :has(img[src="/static/img/vip.gif"])))').hide();
-    }
+    var trusted = "/static/img/trusted.png";
+    var vip = "/static/img/vip.gif";
+    $('tr:not(:first, :has(img[src="'+ trusted +'"]), :has(img[src="'+ vip +'"]))').hide();   
 }
 
 /** Swaps image for Magnent link with T-Swift */
 function replaceMagnent() {  
   var newMagImgUrl = chrome.extension.getURL("images/download-button.png");
-  var imgElems = document.getElementsByTagName("img"); 
-  var mag_icon = /static\/img\/icon-magnet.gif/;
-  $('img[src="/static/img/icon-magnet.gif"]').attr('src', newMagImgUrl);
+  var magIcon = "/static/img/icon-magnet.gif";
+  $('img[src="'+ magIcon +'"]').attr('src', newMagImgUrl);
 }
 
 /** Changes GiB/MiB to Gigibytes/Mebibytes */
@@ -78,19 +82,7 @@ function changeMemDigi(apple) {
   var mib = /MiB/;
   var gigibytes = "Gigibytes";
   var mebibytes = "Mebibytes";
-  var swapMem = apple.innerHTML.search(gib);
-  var swapMem2 = apple.innerHTML.search(mib);
   
-  if(swapMem != -1) {
-    //Replace is NOT a mutator method, never going to make that mistake again.
-    return apple.innerHTML.replace(gib, gigibytes);
-  }
-  else if (swapMem2 != -1) {
-    return apple.innerHTML.replace(mib, mebibytes);
-  }
-  else {
-  return false;
-  }
 }
 */
 
@@ -107,19 +99,16 @@ function changeSeason() {
       return $(this).text().replace(regex, replacement);
     });
   };
-  
-  var titleConvertPattern= /s\d\de\d\d/gi;
-  var seasonPattern = /s(?=\d\d)/gi;
-  var episodePattern = /e(?=\d\d)/gi;
+  var seasonAndEpisodePatterns = {
+    'Season ': /s(?=\d\d)/gi,
+    ' Episode ': /e(?=\d\d)/gi
+  };
+  $.each(seasonAndEpisodePatterns, function(title, pattern) {
+    $('.detLink').html(function () {
+      return $(this).html().replace(pattern, title);
+    });
+  });
 
-  
-  $('.detLink').html(function () {
-    return $(this).html().replace(seasonPattern, "Season: ");
-  });
-  $('.detLink').text(function () {
-    return $(this).text().replace(episodePattern, " Episode: ");
-  });
-  
   $('.detLink').wrapInTag({ 
     tag: 'b',
     words: ['Season', 'Episode']
@@ -127,7 +116,7 @@ function changeSeason() {
 }
 
 /** Adds styling to Seeds/Leechers */
-function changeSeLe() {
+function changeSeedersLeechersStyle() {
   $('abbr[title="Seeders"]').css('color', 'green');
   $('abbr[title="Leechers"]').css('color', 'red');
   $('a[title="Order by Seeders"]').text('Seeders')
