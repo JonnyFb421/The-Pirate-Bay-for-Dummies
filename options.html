@@ -2,32 +2,45 @@
 <html>
   <head>
     <title>The Pirate Bay for Dummies Settings</title>
+     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <form>
-      <label for="replaceMagnent">Replace small magnent icon with larger download image:</label>
-      <input type="radio" name="replaceMagnent" value=1 />On
-      <input type="radio" name="replaceMagnent" value=0 />Off
+    <form id="options_form" class="apple">
+      <span>
+        <label for="removeNonTrusted">Hide torrents that are not trusted or verified:</label>
+        <input type="radio" class="fancy-radio" name="removeNonTrusted" value=1 />On
+        <input type="radio" class="fancy-radio" name="removeNonTrusted" value=0 />Off
+      </span>
       <br />
-      <label for="addCategoryImages">Replaces category text with image:</label>
-      <input type="radio" name="addCategoryImages" value=1 />On
-      <input type="radio" name="addCategoryImages" value=0 />Off
+      <span>
+        <label for="replaceMagnent">Replace small magnent icon with larger download image:</label>
+        <input type="radio" class="fancy-radio" name="replaceMagnent" value=1 />On
+        <input type="radio" class="fancy-radio" name="replaceMagnent" value=0 />Off
+      </span>
       <br />
-      <label for="changeSeedersLeechersStyle">Change SE/LE to Seeders/Leechers and add styling:</label>
-      <input type="radio" name="changeSeedersLeechersStyle" value=1 />On
-      <input type="radio" name="changeSeedersLeechersStyle" value=0 />Off
+      <span>
+        <label for="addCategoryImages">Replace category text with image:</label>
+        <input type="radio" class="fancy-radio" name="addCategoryImages" value=1 />On
+        <input type="radio" class="fancy-radio" name="addCategoryImages" value=0 />Off
+      </span>
       <br />
-      <label for="changeSeason">Changes S01E01 format to Season 01 Episode 01:</label>
-      <input type="radio" name="changeSeason" value=1 />On
-      <input type="radio" name="changeSeason" value=0 />Off
+      <span>
+        <label for="changeSeedersLeechersStyle">Change SE/LE to Seeders/Leechers and add styling:</label>
+        <input type="radio" class="fancy-radio" name="changeSeedersLeechersStyle" value=1 />On
+        <input type="radio" class="fancy-radio" name="changeSeedersLeechersStyle" value=0 />Off
+      </span>
       <br />
-      <label for="sortBySeedsDescending">Automatically sort by seeders descending:</label>
-      <input type="radio" name="sortBySeedsDescending" value=1 />On
-      <input type="radio" name="sortBySeedsDescending" value=0 />Off
+      <span>
+        <label for="changeSeason">Change S01E01 format to Season 01 Episode 01:</label>
+        <input type="radio" class="fancy-radio" name="changeSeason" value=1 />On
+        <input type="radio" class="fancy-radio" name="changeSeason" value=0 />Off
+      </span>
       <br />
-      <label for="removeNonTrusted">Hides torrents that are not trusted or verified:</label>
-      <input type="radio" name="removeNonTrusted" value=1 />On
-      <input type="radio" name="removeNonTrusted" value=0 />Off
+      <span>
+        <label for="sortBySeedsDescending">Automatically sort by seeders descending:</label>
+        <input type="radio" class="fancy-radio" name="sortBySeedsDescending" value=1 />On
+        <input type="radio" class="fancy-radio" name="sortBySeedsDescending" value=0 />Off
+      </span>
       <br />
       <div id="status"></div>
       <button id="save">Save Settings</button>

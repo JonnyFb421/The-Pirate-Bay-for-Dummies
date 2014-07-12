@@ -1,4 +1,23 @@
-﻿.seeds {
+﻿.apple form {
+    overflow: auto;
+    width: 100%;
+    
+}
+
+.apple label, input, button {
+    display: inline-block;
+}
+
+.apple label {
+    width: 20%;
+    text-align: left;
+}
+
+.apple span:hover {
+    background-color:#C6FFE2;
+}
+
+.seeds {
     text-align: center;
 	font-weight: bold;
 	color: green;

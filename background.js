@@ -10,7 +10,6 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-
 chrome.browserAction.onClicked.addListener(function(tab) {
-  chrome.tabs.update({url: "background.html"});
+  chrome.tabs.update({url: "options.html"});
 });

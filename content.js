@@ -4,16 +4,7 @@
 //  removing non-verified torrents and making torrents easier to read and download 
 */
 
-
-replaceMagnent(); //Good to go
-addCategoryImages(); //Fix me - Add Games/Applications/Other
-changeSeedersLeechersStyle(); //Good to go
-changeSeason();  //Good to go
-sortBySeedsDescending(); //Good to go
-removeNonTrusted(); // Good to go
 //changeMemDigi Undecided if this should stay or go
-
-var apple = {};
 chrome.storage.local.get({
   replaceMagnent: 1,
   addCategoryImages: 1,
@@ -22,17 +13,29 @@ chrome.storage.local.get({
   sortBySeedsDescending: 1,
   removeNonTrusted: 1
 }, function(settings) {
-  //console.log(Object.keys(settings).length);
   for (setting in settings) {
-  //Leaving off here
+    if (settings.hasOwnProperty(setting)) {
+      if (setting == "sortBySeedsDescending" && settings[setting] == true) {
+        sortBySeedsDescending();
+      } else if (setting == "addCategoryImages" && settings[setting] == true) {
+        addCategoryImages();
+      } else if (setting == "changeSeedersLeechersStyle" && settings[setting] == true) {
+        changeSeedersLeechersStyle();
+      } else if (setting == "changeSeason" && settings[setting] == true) {
+        changeSeason();
+      } else if (setting == "replaceMagnent" && settings[setting] == true) {
+        replaceMagnent();
+      } else if (setting == "removeNonTrusted" && settings[setting] == true) {
+        removeNonTrusted();
+      }
+    }
   }
 });
 
 
-
-/** This function checks if the page is sorted by seeds descending and if not sorts the page by seeds. */
+/** Changes URL to seeds descending */
 function sortBySeedsDescending() {
-  var url = document.URL;
+  var url = window.location.href;
   var pattern = /(\/[0-9]+\/)(99)(\/[0-9])+/;
   if (url.match(pattern)) {
     var newUrl = url.replace(pattern, "$17$3");
@@ -54,27 +57,67 @@ function addCategoryImages() {
   var imgComics = chrome.extension.getURL("images/comics.png");
   var imgMusicVideo = chrome.extension.getURL("images/music_video.png");
   var mediaTypes = {
-    'Porn': imgPorn,
-    'Games': imgGames,
-    'Movies': imgMovie,
-    'Movies DVDR': imgMovie,
-    'HD - Movies': imgHdMovie,
-    'TV shows': imgTv,
-    'HD - TV shows': imgTv,
-    'Music': imgAudio,
-    'FLAC': imgAudio,
-    'E-books': imgEbook,
-    'Audio books': imgAudioBook,
-    'Comics': imgComics,
-    'Music videos': imgMusicVideo
+    //Porn
+    'Porn (Movies)': imgPorn,
+    'Porn (Movies DVDR)': imgPorn,
+    'Porn (Pictures)': imgPorn,
+    'Porn (Games)': imgPorn,
+    'Porn (HD - Movies)': imgPorn,
+    'Porn (Movie clips)': imgPorn,
+    'Porn (Other)': imgPorn,
+    //Games
+    'Games (PC)': imgGames,
+    'Games (Mac)': imgGames,
+    'Games (PSx)': imgGames,
+    'Games (XBOX360)': imgGames,
+    'Games (Wii)': imgGames,
+    'Games (Handheld)': imgGames,
+    'Games (IOS (iPad/iPhone))': imgGames,
+    'Games (Android)': imgGames,
+    'Games (Other)': imgGames,
+    //Video
+    'Video (Movies)': imgMovie,
+    'Video (Movies DVDR)': imgMovie,
+    'Video (Music videos)': imgMusicVideo,
+    'Video (Movie clips)': imgMovie,
+    'Video (TV shows)': imgTv,
+    'Video (Handheld)': imgMovie,
+    'Video (HD - Movies)': imgHdMovie,
+    'Video (HD - TV shows)': imgTv,
+    'Video (3D) ': imgMovie,
+    'Video (Other) ': imgMovie,
+    //Audio
+    'Audio (Music)': imgAudio,
+    'Audio (Audio books)': imgAudioBook,
+    //'Audio (Sound clips)': FIX,
+    'Audio (FLAC)': imgAudio,
+    'Audio (Other)': imgAudio,
+    //Applications
+    /*
+    'Applications (Windows)': FIX,
+    'Applications (Mac)': FIX,
+    'Applications (UNIX)': FIX,
+    'Applications (Handheld)': FIX,
+    'Applications (IOS (iPad/iPhone))': FIX,
+    'Applications (Android)': FIX,
+    'Applications (Other OS)': FIX,
+    */
+    //Other
+    'Other (E-books)': imgEbook,
+    'Other (Comics)': imgComics
+    /*
+    'Other (Pictures)': FIX,
+    'Other (Covers)': FIX,
+    'Other (Physibles)': FIX,
+    'Other (Other)': FIX,
+    */
   };
-  
   $.each(mediaTypes, function(media, imgUrl) {
     var newImg = $("<img>", {src: imgUrl});
-    //Using 'a' instead of center > a:nth-child(3) to ensure a:nth-child(1) also gets checked for porn
-    $('a').filter(function() {
-      return $(this).text() === media;
-    }).parent('center').text('')
+    $('#searchResult > tbody > tr > td.vertTh > center').filter(function() {
+      //Regex replaces multiple whitespace for a single ' '.  $.trim will polish the result.
+      return $.trim($(this).text().replace(/\s+/g, ' ')) == media;
+    }).text('')
       .after(newImg);
   });
 }
@@ -86,7 +129,7 @@ function removeNonTrusted() {
     $('tr:not(:first, :has(img[src="'+ trusted +'"]), :has(img[src="'+ vip +'"]))').hide();   
 }
 
-/** Swaps image for Magnent link with T-Swift */
+/** Swaps image for Magnent link with larger download button*/
 function replaceMagnent() {  
   var newMagImgUrl = chrome.extension.getURL("images/download-button.png");
   var magIcon = "/static/img/icon-magnet.gif";
@@ -110,7 +153,7 @@ function changeSeason() {
   $.fn.wrapInTag = function(opts) {
     var tag = opts.tag || 'strong'
       , words = opts.words || []
-      , regex = RegExp(words.join('|'), 'gi') // case insensitive
+      , regex = RegExp(words.join('|'), 'gi')
       , replacement = '<'+ tag +'>$&</'+ tag +'>';
 
     return this.html(function() {
