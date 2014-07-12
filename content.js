@@ -35,10 +35,16 @@ chrome.storage.local.get({
 
 /** Changes URL to seeds descending */
 function sortBySeedsDescending() {
+  //There is a bug here when a new tab is opened.  Use API to select correct tab id.
   var url = window.location.href;
-  var pattern = /(\/[0-9]+\/)(99)(\/[0-9])+/;
-  if (url.match(pattern)) {
-    var newUrl = url.replace(pattern, "$17$3");
+  var searchPattern = /(\/[0-9]+\/)(99)(\/[0-9])+/;
+  var browsePattern = /browse\/[0-9]+$/;
+  if (url.match(searchPattern)) {
+    var newUrl = url.replace(searchPattern, "$17$3");
+    chrome.runtime.sendMessage({redirect: newUrl}, function(response) {
+    });
+  } else if (url.match(browsePattern)) {
+    var newUrl = url + "/0/7/0";
     chrome.runtime.sendMessage({redirect: newUrl}, function(response) {
     });
   }
@@ -47,15 +53,40 @@ function sortBySeedsDescending() {
 /** Adds images to category section */
 function addCategoryImages() {
   var imgPorn = chrome.extension.getURL("images/porn.png");
-  var imgGames = chrome.extension.getURL("images/games.png");
-  var imgMovie = chrome.extension.getURL("images/Movie_Clip.png");
-  var imgHdMovie = chrome.extension.getURL("images/HD_Movie_Clip.png");
-  var imgTv = chrome.extension.getURL("images/tv.png");
-  var imgAudio = chrome.extension.getURL("images/audio.png");
-  var imgEbook = chrome.extension.getURL("images/ebook.png");
+  //Games
+  var imgGamesAndroid = chrome.extension.getURL("images/games_android.png");
+  var imgGamesHandheld = chrome.extension.getURL("images/games_handheld.png");
+  var imgGamesIos = chrome.extension.getURL("images/games_ios.png");
+  var imgGamesMac = chrome.extension.getURL("images/games_mac.png");
+  var imgGamesOther = chrome.extension.getURL("images/games_other.png");
+  var imgGamesPc = chrome.extension.getURL("images/games_pc.png");
+  var imgGamesPsx = chrome.extension.getURL("images/games_psx.png");
+  var imgGamesWii = chrome.extension.getURL("images/games_wii.png");
+  var imgGamesXbox = chrome.extension.getURL("images/games_xbox.png");
+  //Video
+  var imgVideoThreeD = chrome.extension.getURL("images/video_3d.png");
+  var imgVideoClip = chrome.extension.getURL("images/video_clip.png");
+  var imgVideoHdMovie = chrome.extension.getURL("images/video_hdmovie.png");
+  var imgVideoHdTv = chrome.extension.getURL("images/video_hdtv.png");
+  var imgVideoMovie = chrome.extension.getURL("images/video_movie.png");
+  var imgVideoMusic = chrome.extension.getURL("images/video_music.png");
+  var imgVideoOther = chrome.extension.getURL("images/video_other.png");
+  var imgVideoTv = chrome.extension.getURL("images/video_tv.png");
+  //Audio
+  var imgAudioMusic = chrome.extension.getURL("images/audio_music.png");
+  var imgAudioFlac = chrome.extension.getURL("images/audio_flac.png");
+  var imgAudioClips = chrome.extension.getURL("images/audio_clips.png");
   var imgAudioBook = chrome.extension.getURL("images/audio_book.png");
-  var imgComics = chrome.extension.getURL("images/comics.png");
-  var imgMusicVideo = chrome.extension.getURL("images/music_video.png");
+  //Other
+  var imgOtherEbook = chrome.extension.getURL("images/other_ebook.png");
+  var imgOtherComics = chrome.extension.getURL("images/other_comics.png");
+  //Applications
+  var imgAppAndroid = chrome.extension.getURL("images/application_android.png");
+  var imgAppHandheld = chrome.extension.getURL("images/application_handheld.png");
+  var imgAppIos = chrome.extension.getURL("images/application_ios.png");
+  var imgAppMac = chrome.extension.getURL("images/application_mac.png");
+  var imgAppWindows = chrome.extension.getURL("images/application_windows.png");
+
   var mediaTypes = {
     //Porn
     'Porn (Movies)': imgPorn,
@@ -66,45 +97,43 @@ function addCategoryImages() {
     'Porn (Movie clips)': imgPorn,
     'Porn (Other)': imgPorn,
     //Games
-    'Games (PC)': imgGames,
-    'Games (Mac)': imgGames,
-    'Games (PSx)': imgGames,
-    'Games (XBOX360)': imgGames,
-    'Games (Wii)': imgGames,
-    'Games (Handheld)': imgGames,
-    'Games (IOS (iPad/iPhone))': imgGames,
-    'Games (Android)': imgGames,
-    'Games (Other)': imgGames,
+    'Games (PC)': imgGamesPc,
+    'Games (Mac)': imgGamesMac,
+    'Games (PSx)': imgGamesPsx,
+    'Games (XBOX360)': imgGamesXbox,
+    'Games (Wii)': imgGamesWii,
+    'Games (Handheld)': imgGamesHandheld,
+    'Games (IOS (iPad/iPhone))': imgGamesIos,
+    'Games (Android)': imgGamesAndroid,
+    'Games (Other)': imgGamesOther,
     //Video
-    'Video (Movies)': imgMovie,
-    'Video (Movies DVDR)': imgMovie,
-    'Video (Music videos)': imgMusicVideo,
-    'Video (Movie clips)': imgMovie,
-    'Video (TV shows)': imgTv,
-    'Video (Handheld)': imgMovie,
-    'Video (HD - Movies)': imgHdMovie,
-    'Video (HD - TV shows)': imgTv,
-    'Video (3D) ': imgMovie,
-    'Video (Other) ': imgMovie,
+    'Video (Movies)': imgVideoMovie,
+    'Video (Movies DVDR)': imgVideoMovie,
+    'Video (Music videos)': imgVideoMusic,
+    'Video (Movie clips)': imgVideoClip,
+    'Video (TV shows)': imgVideoTv,
+    'Video (Handheld)': imgVideoMovie,
+    'Video (HD - Movies)': imgVideoHdMovie,
+    'Video (HD - TV shows)': imgVideoHdTv,
+    'Video (3D)': imgVideoThreeD,
+    'Video (Other)': imgVideoOther,
     //Audio
-    'Audio (Music)': imgAudio,
+    'Audio (Music)': imgAudioMusic,
     'Audio (Audio books)': imgAudioBook,
-    //'Audio (Sound clips)': FIX,
-    'Audio (FLAC)': imgAudio,
-    'Audio (Other)': imgAudio,
+    'Audio (Sound clips)': imgAudioClips,
+    'Audio (FLAC)': imgAudioFlac,
+    'Audio (Other)': imgAudioMusic,
     //Applications
-    /*
-    'Applications (Windows)': FIX,
-    'Applications (Mac)': FIX,
-    'Applications (UNIX)': FIX,
-    'Applications (Handheld)': FIX,
-    'Applications (IOS (iPad/iPhone))': FIX,
-    'Applications (Android)': FIX,
-    'Applications (Other OS)': FIX,
-    */
+    'Applications (Windows)': imgAppWindows,
+    'Applications (Mac)': imgAppMac,
+    //'Applications (UNIX)': FIX,
+    'Applications (Handheld)': imgAppHandheld,
+    'Applications (IOS (iPad/iPhone))': imgAppIos,
+    'Applications (Android)': imgAppAndroid,
+    //'Applications (Other OS)': FIX,
     //Other
-    'Other (E-books)': imgEbook,
-    'Other (Comics)': imgComics
+    'Other (E-books)': imgOtherEbook,
+    'Other (Comics)': imgOtherComics
     /*
     'Other (Pictures)': FIX,
     'Other (Covers)': FIX,
@@ -118,7 +147,7 @@ function addCategoryImages() {
       //Regex replaces multiple whitespace for a single ' '.  $.trim will polish the result.
       return $.trim($(this).text().replace(/\s+/g, ' ')) == media;
     }).text('')
-      .after(newImg);
+      .html(newImg);
   });
 }
 
@@ -133,7 +162,7 @@ function removeNonTrusted() {
 function replaceMagnent() {  
   var newMagImgUrl = chrome.extension.getURL("images/download-button.png");
   var magIcon = "/static/img/icon-magnet.gif";
-  $('img[src="'+ magIcon +'"]').attr('src', newMagImgUrl);
+  $('#searchResult > tbody > tr > td > a > img[src="'+ magIcon +'"]').attr('src', newMagImgUrl);
 }
 
 /** Changes GiB/MiB to Gigibytes/Mebibytes */
