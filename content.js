@@ -155,7 +155,7 @@ function addCategoryImages() {
 function removeNonTrusted() {
     var trusted = "/static/img/trusted.png";
     var vip = "/static/img/vip.gif";
-    $('tr:not(:first, :has(img[src="'+ trusted +'"]), :has(img[src="'+ vip +'"]))').hide();   
+    $('tr:not(:first, :last, :has(img[src="'+ trusted +'"]), :has(img[src="'+ vip +'"]))').hide();   
 }
 
 /** Swaps image for Magnent link with larger download button*/
