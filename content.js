@@ -52,6 +52,7 @@ function sortBySeedsDescending() {
 
 /** Adds images to category section */
 function addCategoryImages() {
+  //Porn
   var imgPorn = chrome.extension.getURL("images/porn.png");
   //Games
   var imgGamesAndroid = chrome.extension.getURL("images/games_android.png");
@@ -69,22 +70,29 @@ function addCategoryImages() {
   var imgVideoHdMovie = chrome.extension.getURL("images/video_hdmovie.png");
   var imgVideoHdTv = chrome.extension.getURL("images/video_hdtv.png");
   var imgVideoMovie = chrome.extension.getURL("images/video_movie.png");
+  var imgVideoHandheld = chrome.extension.getURL("images/video_handheld.png");
   var imgVideoMusic = chrome.extension.getURL("images/video_music.png");
   var imgVideoOther = chrome.extension.getURL("images/video_other.png");
   var imgVideoTv = chrome.extension.getURL("images/video_tv.png");
   //Audio
   var imgAudioMusic = chrome.extension.getURL("images/audio_music.png");
+  var imgAudioOther = chrome.extension.getURL("images/audio_other.png");
   var imgAudioFlac = chrome.extension.getURL("images/audio_flac.png");
   var imgAudioClips = chrome.extension.getURL("images/audio_clips.png");
   var imgAudioBook = chrome.extension.getURL("images/audio_book.png");
   //Other
   var imgOtherEbook = chrome.extension.getURL("images/other_ebook.png");
   var imgOtherComics = chrome.extension.getURL("images/other_comics.png");
+  var imgOtherPictures = chrome.extension.getURL("images/other_pictures.png");
+  var imgOtherPhysibles = chrome.extension.getURL("images/other_physibles.png");
+  var imgOtherOther = chrome.extension.getURL("images/other_other.png");
   //Applications
   var imgAppAndroid = chrome.extension.getURL("images/application_android.png");
   var imgAppHandheld = chrome.extension.getURL("images/application_handheld.png");
   var imgAppIos = chrome.extension.getURL("images/application_ios.png");
   var imgAppMac = chrome.extension.getURL("images/application_mac.png");
+  var imgAppUnix = chrome.extension.getURL("images/application_unix.png");
+  var imgAppOther = chrome.extension.getURL("images/application_other.png");
   var imgAppWindows = chrome.extension.getURL("images/application_windows.png");
 
   var mediaTypes = {
@@ -112,7 +120,7 @@ function addCategoryImages() {
     'Video (Music videos)': imgVideoMusic,
     'Video (Movie clips)': imgVideoClip,
     'Video (TV shows)': imgVideoTv,
-    'Video (Handheld)': imgVideoMovie,
+    'Video (Handheld)': imgVideoHandheld, 
     'Video (HD - Movies)': imgVideoHdMovie,
     'Video (HD - TV shows)': imgVideoHdTv,
     'Video (3D)': imgVideoThreeD,
@@ -122,24 +130,23 @@ function addCategoryImages() {
     'Audio (Audio books)': imgAudioBook,
     'Audio (Sound clips)': imgAudioClips,
     'Audio (FLAC)': imgAudioFlac,
-    'Audio (Other)': imgAudioMusic,
+    'Audio (Other)': imgAudioOther, 
     //Applications
     'Applications (Windows)': imgAppWindows,
     'Applications (Mac)': imgAppMac,
-    //'Applications (UNIX)': FIX,
+    'Applications (UNIX)': imgAppUnix, 
     'Applications (Handheld)': imgAppHandheld,
     'Applications (IOS (iPad/iPhone))': imgAppIos,
     'Applications (Android)': imgAppAndroid,
-    //'Applications (Other OS)': FIX,
+    'Applications (Other OS)': imgAppOther,
     //Other
     'Other (E-books)': imgOtherEbook,
-    'Other (Comics)': imgOtherComics
-    /*
-    'Other (Pictures)': FIX,
-    'Other (Covers)': FIX,
-    'Other (Physibles)': FIX,
-    'Other (Other)': FIX,
-    */
+    'Other (Comics)': imgOtherComics,
+    'Other (Pictures)': imgOtherPictures,
+    'Other (Covers)': imgOtherPictures,
+    'Other (Physibles)': imgOtherPhysibles, 
+    'Other (Other)': imgOtherOther
+    
   };
   $.each(mediaTypes, function(media, imgUrl) {
     var newImg = $("<img>", {src: imgUrl});
