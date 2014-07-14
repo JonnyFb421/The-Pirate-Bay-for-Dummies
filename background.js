@@ -1,6 +1,6 @@
 /*
 //  background.js
-//  Launches background.html when icon is pressed
+//  Launches options.html when icon is pressed
 */
 
 // Redirect to seeds descending
