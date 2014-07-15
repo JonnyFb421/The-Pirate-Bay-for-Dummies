@@ -188,8 +188,10 @@ function changeSeason() {
 
 /** Adds styling to Seeds/Leechers */
 function changeSeedersLeechersStyle() {
-  $('abbr[title="Seeders"]').css('color', 'green');
-  $('abbr[title="Leechers"]').css('color', 'red');
+  $('abbr[title="Seeders"]').css('color', 'green')
+                            .text('Seeders');
+  $('abbr[title="Leechers"]').css('color', 'red')
+                             .text('Leechers');
   $('a[title="Order by Seeders"]').text('Seeders')
                                   .css('color', 'green');
   $('a[title="Order by Leechers"]').text('Leechers')
