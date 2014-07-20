@@ -43,7 +43,6 @@ function thePirateBayForDummies() {
   
   /** Changes URL to seeds descending */
   function sortBySeedsDescending() {
-    //There is a bug here when a new tab is opened.  Use API to select correct tab id.
     var url = window.location.href,
         searchPattern = /(\/[0-9]+\/)(99)(\/[0-9])+/,
         browsePattern = /browse\/[0-9]+$/;
