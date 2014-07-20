@@ -2,50 +2,68 @@
 <html>
   <head>
     <title>The Pirate Bay for Dummies Settings</title>
-     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <form id="options_form" class="apple">
-      <span>
-        <label for="removeNonTrusted">Hide torrents that are not trusted or verified:</label>
-        <input type="radio" class="fancy-radio" name="removeNonTrusted" value=1 />On
-        <input type="radio" class="fancy-radio" name="removeNonTrusted" value=0 />Off
-      </span>
-      <br />
-      <span>
-        <label for="replaceMagnent">Replace small magnent icon with larger download image:</label>
-        <input type="radio" class="fancy-radio" name="replaceMagnent" value=1 />On
-        <input type="radio" class="fancy-radio" name="replaceMagnent" value=0 />Off
-      </span>
-      <br />
-      <span>
-        <label for="addCategoryImages">Replace category text with image:</label>
-        <input type="radio" class="fancy-radio" name="addCategoryImages" value=1 />On
-        <input type="radio" class="fancy-radio" name="addCategoryImages" value=0 />Off
-      </span>
-      <br />
-      <span>
-        <label for="changeSeedersLeechersStyle">Change SE/LE to Seeders/Leechers and add styling:</label>
-        <input type="radio" class="fancy-radio" name="changeSeedersLeechersStyle" value=1 />On
-        <input type="radio" class="fancy-radio" name="changeSeedersLeechersStyle" value=0 />Off
-      </span>
-      <br />
-      <span>
-        <label for="changeSeason">Change S01E01 format to Season 01 Episode 01:</label>
-        <input type="radio" class="fancy-radio" name="changeSeason" value=1 />On
-        <input type="radio" class="fancy-radio" name="changeSeason" value=0 />Off
-      </span>
-      <br />
-      <span>
-        <label for="sortBySeedsDescending">Automatically sort by seeders descending:</label>
-        <input type="radio" class="fancy-radio" name="sortBySeedsDescending" value=1 />On
-        <input type="radio" class="fancy-radio" name="sortBySeedsDescending" value=0 />Off
-      </span>
-      <br />
-      <div id="status"></div>
-      <button id="save">Save Settings</button>
-    </form>
-    <script src="options.js"></script>
-    <script src="jquery-2.1.1.min.js"></script>
+    <div id="container">
+      <form id="options_form" class="options">
+        <fieldset>
+          <legend>Options - The Pirate Bay for Dummies</legend>
+          <div class="choice">
+            <label for="removePorn">Remove torrents containing pornographic material:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="removePorn" value=1 >On </input>
+              <input type="radio" name="removePorn" value=0 >Off </input> 
+            </div>
+          </div>
+          <div class="choice">
+            <label for="removeNonTrusted">Hide torrents that are not trusted or verified:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="removeNonTrusted" value=1 >On </input>
+              <input type="radio" name="removeNonTrusted" value=0 >Off </input> 
+            </div>
+          </div>
+          <div class="choice">
+            <label for="replaceMagnet">Replace small magnet icon with larger download image:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="replaceMagnet" value=1 >On </input>
+              <input type="radio" name="replaceMagnet" value=0 >Off </input> 
+            </div>
+          </div>
+          <div class="choice">
+            <label for="addCategoryImages">Replace category text with image:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="addCategoryImages" value=1 >On </input>
+              <input type="radio" name="addCategoryImages" value=0 >Off </input> 
+            </div>
+          </div>
+          <div class="choice">
+            <label for="changeSeedersLeechersStyle">Change SE/LE to Seeders/Leechers and add styling:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="changeSeedersLeechersStyle" value=1 >On </input>
+              <input type="radio" name="changeSeedersLeechersStyle" value=0 >Off </input> 
+            </div>
+          </div>
+          <div class="choice">
+            <label for="changeSeason">Change S01E01 format to Season 01 Episode 01:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="changeSeason" value=1 >On </input>
+              <input type="radio" name="changeSeason" value=0 >Off </input> 
+            </div>
+          </div>
+          <div class="choice">
+            <label for="sortBySeedsDescending">Automatically sort by seeders descending:</label>
+            <div class="radio_input"> 
+              <input type="radio" name="sortBySeedsDescending" value=1 >On </input>
+              <input type="radio" name="sortBySeedsDescending" value=0 >Off </input> 
+            </div>
+          </div>
+          <div id="status" style="display:none;" >Your settings have been saved</div>
+          <button id="save">Save Settings</button>
+          <script src="options.js"></script>
+          <script src="jquery-2.1.1.min.js"></script>
+        </fieldset>
+      </form>
+  	</div>
   </body>
 </html>  

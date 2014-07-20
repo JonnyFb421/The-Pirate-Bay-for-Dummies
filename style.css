@@ -1,30 +1,72 @@
-﻿.apple form {
-    overflow: auto;
-    width: 100%;
-    
+﻿#container {
+    text-align: center;
+    display: block;
+    width: 50%;
+    margin:0 auto;
+  }
+  
+.options fieldset, legend {
+    background: -webkit-linear-gradient(90deg, rgb(0, 0, 0) 30%, rgb(133, 133, 133) 70%);
+    color: #fff;
+    font-size: 28px;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    padding: 5px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px #000;
 }
 
-.apple label, input, button {
-    display: inline-block;
+.options fieldset {
+    -webkit-box-shadow: 3px 3px 8px 9px rgba(20, 20, 20, 0.75);
+    background: -webkit-linear-gradient(left,  #f4f4f4 0%,#e8e8e8 38%,#d2d2d2 100%); 
+    padding: 15px;
 }
 
-.apple label {
-    width: 20%;
-    text-align: left;
+
+.choice {
+    padding: 0.2em 0.5em;
+    font-size: 13pt;
+    font-weight: bold;
+    color: #000;
+    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+  }
+  
+.choice:hover {
+    background-color:#FDFDFD;
 }
 
-.apple span:hover {
-    background-color:#C6FFE2;
+.radio_input {
+    font-weight: normal;
+    margin: 0.5em;
+}
+
+#options_form button {
+  background: #c7c7c7;
+  background-image: -webkit-linear-gradient(top, #c7c7c7, #101010);
+  -webkit-border-radius: 22;
+  border-radius: 22px;
+  text-shadow: 2px 2px 3px #000000;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  color: #ffffff;
+  font-size: 17px;
+  margin: 10px;
+  padding: 08px 15px 08px 15px;
+  text-decoration: none;
+}
+
+#options_form button:hover {
+  background: #e8e8e8;
+  background-image: -webkit-linear-gradient(top, #e8e8e8, #8c8c8c);
+  text-decoration: none;
 }
 
 .seeds {
     text-align: center;
-	font-weight: bold;
-	color: green;
+    font-weight: bold;
+    color: green;
 }
 
 .leeches {
-	text-align: center;
-	font-weight: bold;
-	color: red;
+    text-align: center;
+    font-weight: bold;
+    color: red;
 }

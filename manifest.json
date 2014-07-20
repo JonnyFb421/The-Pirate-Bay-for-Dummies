@@ -1,9 +1,8 @@
 {
-  // Required
   "manifest_version": 2,
   "name": "The Pirate Bay for Dummies",
-  "version": "1.0.0",
-  "description": "Assists users finding quality torrents",
+  "version": "1.0.2",
+  "description": "This extension makes navigating The Pirate Bay easier for inexperienced users.",
   "background": {
     "scripts": ["jquery-2.1.1.min.js", "background.js"],
     "persistent": false
@@ -73,4 +72,4 @@
     "tabs",
     "storage"
   ]
-}  
+}
