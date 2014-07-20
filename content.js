@@ -17,7 +17,7 @@ function thePirateBayForDummies() {
     changeSeedersLeechersStyle: 1,
     changeSeason: 1,
     sortBySeedsDescending: 1,
-    removeNonTrusted: 1,
+    removeNonTrusted: 0,
     removePorn: 0
   }, function(settings) {
     for (setting in settings) {

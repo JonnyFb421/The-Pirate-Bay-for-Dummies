@@ -36,7 +36,7 @@ function thePirateBayForDummiesSettings() {
       changeSeedersLeechersStyle: 1,
       changeSeason: 1,
       sortBySeedsDescending: 1,
-      removeNonTrusted: 1,
+      removeNonTrusted: 0,
       removePorn: 0
     }, function(items) {
       $('input:radio[name=replaceMagnet][value='+ items.replaceMagnet +']').prop('checked', true);
