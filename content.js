@@ -48,10 +48,10 @@ function thePirateBayForDummies() {
         browsePattern = /browse\/[0-9]+$/;
     if (url.match(searchPattern)) {
       var newUrl = url.replace(searchPattern, "$17$3");
-      chrome.runtime.sendMessage({redirect: newUrl});
+      window.location.replace(newUrl);
     } else if (url.match(browsePattern)) {
       var newUrl = url + "/0/7/0";
-      chrome.runtime.sendMessage({redirect: newUrl});
+      window.location.replace(newUrl);
     }
   }
   
